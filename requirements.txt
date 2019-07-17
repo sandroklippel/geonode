@@ -1,6 +1,6 @@
 # native dependencies
-Pillow==6.0.0
-lxml==4.3.3
+Pillow==6.1.0
+lxml==4.3.4
 psycopg2==2.8.3
 Django==1.11.22
 
@@ -17,7 +17,7 @@ celery==4.2.1
 kombu==4.4.0
 boto<=2.49.0
 six<1.11.0 # https://github.com/benjaminp/six/issues/210
-tqdm==4.31.1
+tqdm==4.32.2
 
 # Django Apps
 django-allauth==0.39.1
@@ -33,7 +33,7 @@ django-guardian<=1.4.9
 django-downloadview<=1.9
 django-polymorphic==2.0.3
 django-tastypie<=0.14.0
-oauthlib==3.0.1
+oauthlib==3.0.2
 pyopenssl==19.0.0
 
 # geopython dependencies
@@ -73,7 +73,7 @@ geonode-announcements==1.0.13
 geonode-agon-ratings==0.3.8
 arcrest>=10.0
 geonode-dialogos==1.2
-gsconfig>=1.0.10
+geoserver-restconfig==1.0.1
 gn-gsimporter>=1.0.9
 gisdata>=0.5.4
 
@@ -94,15 +94,15 @@ python-memcached<=1.59
 xmltodict<=0.10.2
 inflection<=0.3.1
 jdcal==1.4
-mock<=2.0.0
+mock<4.0.0
 python-dateutil==2.8.0
-pytz==2018.9
+pytz==2019.1
 requests==2.22.0
 simplejson==3.16.0
 timeout-decorator==0.4.1
 
 # required by monitoring
-psutil==5.6.1
+psutil==5.6.3
 django-cors-headers==2.5.2
 django-multi-email-field<=0.5.1
 user-agents
@@ -122,10 +122,10 @@ invoke==1.2.0
 coverage==4.5.3
 parse-type==0.4.1
 poster~=0.8.1
-flake8==3.7.7
+flake8==3.7.8
 pytest==4.6.3
 pytest-bdd==3.1.0
-splinter==0.10.0
+splinter==0.11.0
 pytest-splinter==2.0.1
 pytest-django==3.5.1
 setuptools==41.0.1
