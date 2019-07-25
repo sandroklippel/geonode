@@ -26,6 +26,7 @@ import logging
 import tempfile
 import traceback
 
+from hyperlink import URL
 from slugify import slugify
 from urlparse import urlparse, urlsplit, urljoin
 
@@ -163,6 +164,7 @@ def proxy(request, url=None, response_callback=None,
         settings.SITEURL,
         raw_url) if raw_url.startswith("/") else raw_url
     url = urlsplit(raw_url)
+    scheme = str(url.scheme)
     locator = str(url.path)
     if url.query != "":
         locator += '?' + url.query
@@ -170,11 +172,14 @@ def proxy(request, url=None, response_callback=None,
         locator += '#' + url.fragment
 
     # White-Black Listing Hosts
+    site_url = urlsplit(settings.SITEURL)
     if sec_chk_hosts and not settings.DEBUG:
-        site_url = urlsplit(settings.SITEURL)
+
+        # Attach current SITEURL
         if site_url.hostname not in PROXY_ALLOWED_HOSTS:
             PROXY_ALLOWED_HOSTS += (site_url.hostname, )
 
+        # Attach current hostname
         if check_ogc_backend(geoserver.BACKEND_PACKAGE):
             from geonode.geoserver.helpers import ogc_server_settings
             hostname = (
@@ -183,6 +188,7 @@ def proxy(request, url=None, response_callback=None,
             if hostname not in PROXY_ALLOWED_HOSTS:
                 PROXY_ALLOWED_HOSTS += hostname
 
+        # Check OWS regexp
         if url.query and ows_regexp.match(url.query):
             ows_tokens = ows_regexp.match(url.query).groups()
             if len(ows_tokens) == 4 and 'version' == ows_tokens[0] and StrictVersion(
@@ -191,6 +197,12 @@ def proxy(request, url=None, response_callback=None,
                             'getcapabilities') and ows_tokens[3].upper() in ('OWS', 'WCS', 'WFS', 'WMS', 'WPS', 'CSW'):
                 if url.hostname not in PROXY_ALLOWED_HOSTS:
                     PROXY_ALLOWED_HOSTS += (url.hostname, )
+
+        # Check Remote Services base_urls
+        from geonode.services.models import Service
+        for _s in Service.objects.all():
+            _remote_host = urlsplit(_s.base_url).hostname
+            PROXY_ALLOWED_HOSTS += (_remote_host, )
 
         if not validate_host(
                 url.hostname, PROXY_ALLOWED_HOSTS):
@@ -211,8 +223,17 @@ def proxy(request, url=None, response_callback=None,
     # Inject access_token if necessary
     parsed = urlparse(raw_url)
     parsed._replace(path=locator.encode('utf8'))
+    if parsed.netloc == site_url.netloc and scheme != site_url.scheme:
+        parsed = parsed._replace(scheme=site_url.scheme)
 
     _url = parsed.geturl()
+
+    # Some clients / JS libraries generate URLs with relative URL paths, e.g.
+    # "http://host/path/path/../file.css", which the requests library cannot
+    # currently handle (https://github.com/kennethreitz/requests/issues/2982).
+    # We parse and normalise such URLs into absolute paths before attempting
+    # to proxy the request.
+    _url = URL.from_text(_url).normalize().to_text()
 
     if request.method == "GET" and access_token and 'access_token' not in _url:
         query_separator = '&' if '?' in _url else '?'
