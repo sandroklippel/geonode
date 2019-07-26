@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: GeoNode\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-25 02:28-0500\n"
-"PO-Revision-Date: 2016-08-23 11:58+0000\n"
+"PO-Revision-Date: 2019-07-26 11:25-0300\n"
 "Last-Translator: Julien Collaer <julien.collaer@opengeode.be>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/geonode/geonode/"
 "language/pt_BR/)\n"
@@ -39,6 +39,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 2.2.3\n"
 
 #: geonode/static/geonode/js/search/search.js:373
 msgid "Enter your text here ..."
@@ -89,43 +90,43 @@ msgstr "NITFS (National Imagery Transmission Format)"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:61
 msgid "Controlled Image Base-1 Meter"
-msgstr ""
+msgstr "Base de Imagem Controlada-1 Metro"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:68
 msgid "Controlled Image Base-5 Meter"
-msgstr ""
+msgstr "Base de Imagem Controlada-5 Metros"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:75
 msgid "Controlled Image Base-10 Meter"
-msgstr ""
+msgstr "Base de Imagem Controlada-10 Metros"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:82
 msgid "CADRG-Global Navigation Chart"
-msgstr ""
+msgstr "CADRG-Carta Global de Navegação"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:89
 msgid "CADRG-Jet Navigation Chart"
-msgstr ""
+msgstr "CADRG-Carta de Navegação a Jato"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:96
 msgid "CADRG-Operational Navigation Chart"
-msgstr ""
+msgstr "CADRG-Carta de Navegação Operaciional"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:103
 msgid "CADRG-Tactical Pilotage Chart"
-msgstr ""
+msgstr "CADRG-Carta de Pilotagem Tática"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:110
 msgid "CADRG-Joint Operations Graphic"
-msgstr ""
+msgstr "CADRG-Gráfico de Operações Conjuntas"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:117
 msgid "CADRG-Topographic Line Map 100K"
-msgstr ""
+msgstr "CADRG-Mapa Topográfico de Linhas 100K"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:124
 msgid "CADRG-Topographic Line Map 50K"
-msgstr ""
+msgstr "CADRG-Mapa Topográfico de Linhas 50K"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:131
 msgid "JPEG2000"
@@ -133,7 +134,7 @@ msgstr "JPEG2000"
 
 #: geonode/static/geonode/js/upload/FileTypes.js:136
 msgid "MrSID-Multi-resolution Seamless Image Database"
-msgstr ""
+msgstr "MrSID-Banco de Imagens de Múltipla Resolução"
 
 #: geonode/static/geonode/js/upload/LayerInfo.js:331
 msgid "Layer Info"
@@ -211,7 +212,7 @@ msgstr ""
 
 #: geonode/static/lib/js/assets.min.js:2
 msgid "<iframe frameborder='0' width='0' height='0'/>"
-msgstr ""
+msgstr "<iframe frameborder='0' width='0' height='0'/>"
 
 #: geonode/static/lib/js/assets.min.js:4
 msgid "<script>"
