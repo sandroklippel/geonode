@@ -615,6 +615,12 @@ SLPi97Rwe7OiVCHJvFxmCI9RYPbJzUO7B0sAB7AuKvMDglF8UAnbTJXDOavrbXrb
 g+gp5fQ4nmDrSNHjakzQCX2mKMsx/GLWZzoIDd7ECV9f
 -----END RSA PRIVATE KEY-----"""
 }
+OAUTH2_PROVIDER_APPLICATION_MODEL = "oauth2_provider.Application"
+OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = "oauth2_provider.AccessToken"
+OAUTH2_PROVIDER_ID_TOKEN_MODEL = "oauth2_provider.IDToken"
+OAUTH2_PROVIDER_GRANT_MODEL = "oauth2_provider.Grant"
+OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL = "oauth2_provider.RefreshToken"
+
 # In order to protect oauth2 REST endpoints, used by GeoServer to fetch user roles and
 # infos, you should set this key and configure the "geonode REST role service"
 # accordingly. Keep it secret!
@@ -1153,7 +1159,7 @@ MONITORING_HOST_NAME = os.getenv("MONITORING_HOST_NAME", HOSTNAME)
 MONITORING_SERVICE_NAME = os.getenv("MONITORING_SERVICE_NAME", 'local-geonode')
 
 # how long monitoring data should be stored
-MONITORING_DATA_TTL = timedelta(days=int(os.getenv("MONITORING_DATA_TTL", 7)))
+MONITORING_DATA_TTL = timedelta(days=int(os.getenv("MONITORING_DATA_TTL", 365)))
 
 # this will disable csrf check for notification config views,
 # use with caution - for dev purpose only
@@ -1184,8 +1190,6 @@ CACHES = {
 }
 
 GEONODE_CATALOGUE_METADATA_XSL = ast.literal_eval(os.getenv('GEONODE_CATALOGUE_METADATA_XSL', 'True'))
-
-
 
 # -- START Client Hooksets Setup
 
@@ -1312,72 +1316,72 @@ To enable the Leaflet based Client:
 if GEONODE_CLIENT_LAYER_PREVIEW_LIBRARY == 'leaflet':
     GEONODE_CLIENT_HOOKSET = os.getenv('GEONODE_CLIENT_HOOKSET', 'geonode.client.hooksets.LeafletHookSet')
 
-    LEAFLET_CONFIG = {
-        'TILES': [
-            # Find tiles at:
-            # http://leaflet-extras.github.io/leaflet-providers/preview/
-
-            # Stamen toner lite.
-            ('Watercolor',
-             'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png',
-             'Map tiles by <a href="http://stamen.com">Stamen Design</a>, \
-             <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> \
-             &mdash; Map data &copy; \
-             <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
-             <a href="http://creativecommons.org/licenses/by-sa/2.0/"> \
-             CC-BY-SA</a>'),
-            ('Toner Lite',
-             'http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png',
-             'Map tiles by <a href="http://stamen.com">Stamen Design</a>, \
-             <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> \
-             &mdash; Map data &copy; \
-             <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
-             <a href="http://creativecommons.org/licenses/by-sa/2.0/"> \
-             CC-BY-SA</a>'),
-        ],
-        'PLUGINS': {
-            'esri-leaflet': {
-                'js': 'lib/js/esri-leaflet.js',
-                'auto-include': True,
-            },
-            'leaflet-fullscreen': {
-                'css': 'lib/css/leaflet.fullscreen.css',
-                'js': 'lib/js/Leaflet.fullscreen.min.js',
-                'auto-include': True,
-            },
-            'leaflet-opacity': {
-                'css': 'lib/css/Control.Opacity.css',
-                'js': 'lib/js/Control.Opacity.js',
-                'auto-include': True,
-            },
-            'leaflet-navbar': {
-                'css': 'lib/css/Leaflet.NavBar.css',
-                'js': 'lib/js/Leaflet.NavBar.js',
-                'auto-include': True,
-            },
-            'leaflet-measure': {
-                'css': 'lib/css/leaflet-measure.css',
-                'js': 'lib/js/leaflet-measure.js',
-                'auto-include': True,
-            },
-        },
-        'SRID': 3857,
-        'RESET_VIEW': False
-    }
-
-    if not DEBUG_STATIC:
-        # if not DEBUG_STATIC, use minified css and js
-        LEAFLET_CONFIG['PLUGINS'] = {
-            'leaflet-plugins': {
-                'js': 'lib/js/leaflet-plugins.min.js',
-                'css': 'lib/css/leaflet-plugins.min.css',
-                'auto-include': True,
-            }
-        }
-
     CORS_ORIGIN_WHITELIST = (
         HOSTNAME
     )
+
+LEAFLET_CONFIG = {
+    'TILES': [
+        # Find tiles at:
+        # http://leaflet-extras.github.io/leaflet-providers/preview/
+
+        # Stamen toner lite.
+        ('Watercolor',
+            'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png',
+            'Map tiles by <a href="http://stamen.com">Stamen Design</a>, \
+            <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> \
+            &mdash; Map data &copy; \
+            <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
+            <a href="http://creativecommons.org/licenses/by-sa/2.0/"> \
+            CC-BY-SA</a>'),
+        ('Toner Lite',
+            'http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png',
+            'Map tiles by <a href="http://stamen.com">Stamen Design</a>, \
+            <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> \
+            &mdash; Map data &copy; \
+            <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
+            <a href="http://creativecommons.org/licenses/by-sa/2.0/"> \
+            CC-BY-SA</a>'),
+    ],
+    'PLUGINS': {
+        'esri-leaflet': {
+            'js': 'lib/js/esri-leaflet.js',
+            'auto-include': True,
+        },
+        'leaflet-fullscreen': {
+            'css': 'lib/css/leaflet.fullscreen.css',
+            'js': 'lib/js/Leaflet.fullscreen.min.js',
+            'auto-include': True,
+        },
+        'leaflet-opacity': {
+            'css': 'lib/css/Control.Opacity.css',
+            'js': 'lib/js/Control.Opacity.js',
+            'auto-include': True,
+        },
+        'leaflet-navbar': {
+            'css': 'lib/css/Leaflet.NavBar.css',
+            'js': 'lib/js/Leaflet.NavBar.js',
+            'auto-include': True,
+        },
+        'leaflet-measure': {
+            'css': 'lib/css/leaflet-measure.css',
+            'js': 'lib/js/leaflet-measure.js',
+            'auto-include': True,
+        },
+    },
+    'SRID': 3857,
+    'RESET_VIEW': False
+}
+
+if not DEBUG_STATIC:
+    # if not DEBUG_STATIC, use minified css and js
+    LEAFLET_CONFIG['PLUGINS'] = {
+        'leaflet-plugins': {
+            'js': 'lib/js/leaflet-plugins.min.js',
+            'css': 'lib/css/leaflet-plugins.min.css',
+            'auto-include': True,
+        }
+    }
 
 """
 To enable the MapStore2 REACT based Client:
@@ -1726,6 +1730,31 @@ THESAURI = []
 ADMIN_MODERATE_UPLOADS = ast.literal_eval(os.environ.get('ADMIN_MODERATE_UPLOADS', 'False'))
 
 GEOIP_PATH = os.getenv('GEOIP_PATH', os.path.join(PROJECT_ROOT, 'GeoIPCities.dat'))
+
+# skip certain paths to not to mud stats too much
+MONITORING_SKIP_PATHS = ('/api/o/',
+                         '/monitoring/',
+                         '/admin',
+                         '/lang.js',
+                         '/jsi18n',
+                         STATIC_URL,
+                         MEDIA_URL,
+                         re.compile('^/[a-z]{2}/admin/'),
+                         )
+
+# configure aggregation of past data to control data resolution
+# list of data age, aggregation, in reverse order
+# for current data, 1 minute resolution
+# for data older than 1 day, 1-hour resolution
+# for data older than 2 weeks, 1 day resolution
+MONITORING_DATA_AGGREGATION = (                           
+                               (timedelta(seconds=0), timedelta(minutes=1),),
+                               (timedelta(days=1), timedelta(minutes=60),),
+                               (timedelta(days=14), timedelta(days=1),),
+                               )
+
+# privacy settings
+USER_ANALYTICS_ENABLED = ast.literal_eval(os.getenv('USER_ANALYTICS_ENABLED', 'False'))
 
 # If this option is enabled, Resources belonging to a Group won't be
 # visible by others
